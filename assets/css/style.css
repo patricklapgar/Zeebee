@@ -116,3 +116,17 @@ html, body {
     color: #000;
     outline: none;
 }
+
+.headerContent .searchBarContainer .searchButton {
+    background-color: #fff;
+    height: 44px;
+    margin-top: 0;
+    width: 44px;
+    padding-right: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.headerContent .searchBarContainer .searchButton img {
+    width: 22px;
+}
