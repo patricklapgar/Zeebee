@@ -1,6 +1,9 @@
 <?php 
     include("classes/DomDocumentParser.php");
 
+    function createLink($src, $url) {
+        
+    }
 
     function followLinks($url) {
         $parser = new DomDocumentParser($url);
@@ -8,10 +11,20 @@
 
         foreach($linkList as $link) {
             $href = $link->getAttribute("href");
-            echo $href . "<br>";
+
+            // If any links found contain hashtags or javascript, then continue the loop and do not display
+            if(strpos($href, "#") !== false) {
+                continue;
+            } else if(substr($href, 0, 11) == "javascript:"){
+                continue;
+            }
+
+            createLink($href, $url);
+
+            // echo $href . "<br>";
         }
     }
 
-    $startUrl = "http://www.reecekenney.com";
+    $startUrl = "http://www.bbc.com";
     followLinks($startUrl);
 ?>

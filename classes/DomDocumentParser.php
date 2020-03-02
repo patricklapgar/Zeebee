@@ -4,7 +4,7 @@
         private $doc;
         public function __construct($url) {
                 /*
-                    The array below gives some options to be used when a user makes a request for a web page
+                    The array below gives some options to be used when a request is made to a web page
                     The options I'm specifying are:
                         - The method which to retrieve the data
                         - The header of the request
