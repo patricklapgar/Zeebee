@@ -41,9 +41,28 @@
         return $src;
     }
 
+    function getDetails($url) {
+        $parser = new DomDocumentParser($url);
+        $titleArray = $parser->getTitleTags();
+
+        if(sizeof($titleArray) == 0 || $titleArray->item(0) == NULL) {
+            return;
+        }
+
+        // Return the value of the index 0 in title array
+        $title = $titleArray->item(0)->nodeValue;
+        $title = str_replace("\n", "", $title);
+
+        if($title == "") {
+            return;
+        }
+
+        echo "URL: $url, Title: $title<br>"; 
+    }
+
     function followLinks($url) {
 
-        // Specify the two arrays above are global
+        // Specify two global arrays
         global $alreadyCrawled;
         global $crawling;
 
@@ -67,12 +86,13 @@
                 $alreadyCrawled[] = $href;
                 $crawling[] = $href;
 
-                // TODO: Insert href tags into local DB
+                getDetails($href);
+            } else {
+                return;
             }
-
-            echo $href . "<br>";
         }
 
+        // Remove the first element from array
         array_shift($crawling);
 
         foreach($crawling as $site) {
