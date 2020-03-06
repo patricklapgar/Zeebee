@@ -2,6 +2,13 @@
 <html>
     <head>
         <title>Zeebie</title>
+
+        <meta charset="UTF-8">
+        <meta name="description" content="Search the web for websites and images">
+        <meta name="keywords" content="Search engine, Zeebee">
+        <meta name="author" content="Patrick Apgar">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
         <link rel="stylesheet" type="text/css" href="assets/css/style.css">
     </head>
     <body>
