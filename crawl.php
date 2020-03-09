@@ -1,4 +1,5 @@
 <?php 
+    include("config.php");
     include("classes/DomDocumentParser.php");
 
     /* 
@@ -15,6 +16,54 @@
     // Array of links that need to be crawled
     $crawling = array();
 
+    $alreadyFoundImages = array();
+    // Check if there are duplicate links in DB
+    function linkExists($url) {
+        global $con;
+
+        $query = $con->prepare("SELECT * FROM sites WHERE url = :url");
+
+        // The bindParam method will link variables to placeholder values in your MySQL query
+        // Doing this prevents hackers from running MySQL injections and change the values inserted into your database
+        // TODO: integrate prepare and binding MySQL statements in MStream application
+        $query->bindParam(":url", $url);
+        $query->execute();
+
+        return $query->rowCount() != 0;
+    }
+
+    // Insert links into db
+    function insertLink($url, $title, $description, $keywords) {
+        global $con;
+
+        $query = $con->prepare("INSERT INTO sites(url, title, description, keywords)
+            VALUES(:url, :title, :description, :keywords)");
+
+        // The bindParam method will link variables to placeholder values in your MySQL query
+        // Doing this prevents hackers from running MySQL injections and change the values inserted into your database
+        // TODO: integrate prepare and binding MySQL statements in MStream application
+        $query->bindParam(":url", $url);
+        $query->bindParam(":title", $title);
+        $query->bindParam(":description", $description);
+        $query->bindParam(":keywords", $keywords);
+
+        return $query->execute();
+    }
+
+    function insertImages($url, $src, $alt, $title) {
+        global $con;
+
+        $query = $con->prepare("INSERT INTO images(siteUrl, imageUrl, alt, title)
+            VALUES(:siteUrl, :imageUrl, :alt, :title)");
+
+            $query->bindParam(":siteUrl", $url);
+            $query->bindParam(":imageUrl", $src);
+            $query->bindParam(":alt", $alt);
+            $query->bindParam(":title", $title);
+
+         return $query->execute();
+    }
+
     // This function will convert relative links to absolute links
     function createLink($src, $url) {
         $scheme = parse_url($url)["scheme"]; // http
@@ -27,7 +76,6 @@
             $src = $scheme . "://" . $host . $src;
         
         } else if(substr($src, 0, 2) == "./") {
-            // If the url is calling to a different directory, parse the url and find the directory name to append it to the src variable
             $src = $scheme . "://" . $host . dirname(parse_url($url)["path"]) . substr($src, 1);
         
         } else if(substr($src, 0, 3) == "../") {
@@ -42,6 +90,8 @@
     }
 
     function getDetails($url) {
+        global $alreadyFoundImages;
+        
         $parser = new DomDocumentParser($url);
         $titleArray = $parser->getTitleTags();
 
@@ -74,6 +124,33 @@
 
         $description = str_replace("\n", "", $description);
         $keywords = str_replace("\n", "", $keywords);
+
+        if(linkExists($url)) {
+            echo "$url already exists<br>";
+        } else if(insertLink($url, $title, $description, $keywords)) {
+            echo "SUCCESS: $url<br>";
+        } else {
+            echo "ERROR: Failed to insert $url<br>";
+        }
+
+        $imageArray = $parser->getImages();
+        foreach($imageArray as $image) {
+            $src = $image->getAttribute("srs");
+            $alt = $image->getAttribute("alt");
+            $title = $image->getAttribute("title");
+
+            if(!$title && !$alt) {
+                continue;
+            }
+
+            $src = createLink($src, $url);
+
+            if(!in_array($src, $alreadyFoundImages)) {
+                $alreadyFoundImages[] = $src;
+                insertImages($url, $src, $alt, $title);
+                
+            }
+        }
     }
 
     function followLinks($url) {
@@ -88,7 +165,6 @@
         foreach($linkList as $link) {
             $href = $link->getAttribute("href");
 
-            // If any links found contain hashtags or javascript, then continue the loop and do not display
             if(strpos($href, "#") !== false) {
                 continue;
             } else if(substr($href, 0, 11) == "javascript:"){
@@ -103,8 +179,6 @@
                 $crawling[] = $href;
 
                 getDetails($href);
-            } else {
-                return;
             }
         }
 
@@ -116,6 +190,16 @@
         }
     }
 
+    /* 
+     List of websites to crawl for data:
+        -Dog websites
+        -Google
+        -Microsoft
+        -Apple
+        -Facebook
+        -Khan Academy
+        -FreeCodeCamp
+    */
     $startUrl = "http://www.bbc.com";
     followLinks($startUrl);
 ?>
