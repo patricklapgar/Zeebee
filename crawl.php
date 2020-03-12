@@ -2,46 +2,25 @@
     include("config.php");
     include("classes/DomDocumentParser.php");
 
-    /* 
-        IMPORTANT TO NOTE:
-        An important feature of the web crawler will be to recursively crawl absolute links
-        When a link appears on a page, the web crawler will go to that link and then crawl other links on that page and return to the previous page
-        Then, if there are more links on the original page, the crawler will continue to the remaining and crawl through those as well
-        Each link it finds will be recursively crawled and continue until there are no more links to crawl
-    */
-
-    // Array of links already crawled
     $alreadyCrawled = array();
-
-    // Array of links that need to be crawled
     $crawling = array();
-
     $alreadyFoundImages = array();
+
     // Check if there are duplicate links in DB
     function linkExists($url) {
         global $con;
-
         $query = $con->prepare("SELECT * FROM sites WHERE url = :url");
-
-        // The bindParam method will link variables to placeholder values in your MySQL query
-        // Doing this prevents hackers from running MySQL injections and change the values inserted into your database
-        // TODO: integrate prepare and binding MySQL statements in MStream application
         $query->bindParam(":url", $url);
         $query->execute();
-
         return $query->rowCount() != 0;
     }
 
-    // Insert links into db
     function insertLink($url, $title, $description, $keywords) {
         global $con;
 
         $query = $con->prepare("INSERT INTO sites(url, title, description, keywords)
             VALUES(:url, :title, :description, :keywords)");
 
-        // The bindParam method will link variables to placeholder values in your MySQL query
-        // Doing this prevents hackers from running MySQL injections and change the values inserted into your database
-        // TODO: integrate prepare and binding MySQL statements in MStream application
         $query->bindParam(":url", $url);
         $query->bindParam(":title", $title);
         $query->bindParam(":description", $description);
@@ -182,7 +161,6 @@
             }
         }
 
-        // Remove the first element from array
         array_shift($crawling);
 
         foreach($crawling as $site) {
@@ -190,16 +168,6 @@
         }
     }
 
-    /* 
-     List of websites to crawl for data:
-        -Dog websites
-        -Google
-        -Microsoft
-        -Apple
-        -Facebook
-        -Khan Academy
-        -FreeCodeCamp
-    */
-    $startUrl = "http://www.bbc.com";
+    $startUrl = "http://www.youtube.com";
     followLinks($startUrl);
 ?>
