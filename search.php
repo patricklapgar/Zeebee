@@ -1,5 +1,6 @@
 <?php 
     include("config.php");
+    include("classes/SiteResultsProvider.php");
 
     $term = isset($_GET["term"]) ? $_GET["term"] : exit("You must enter a search term");
     $type = isset($_GET["type"]) ? $_GET["type"] : "sites";   
@@ -48,6 +49,13 @@
                         </li>
                     </ul>
                 </div>
+            </div>
+
+            <div class="mainReseultsSection">
+                <?php
+                    $resultsProvider = new SiteResultsProvider($con);
+                    echo $resultsProvider->getNumResults($term);
+                ?>
             </div>
             
         </div>

@@ -168,6 +168,6 @@
         }
     }
 
-    $startUrl = "http://www.youtube.com";
+    $startUrl = "https://github.com/";
     followLinks($startUrl);
 ?>
