@@ -159,3 +159,13 @@ html, body {
     font-weight: bold;
     color: #1A73E8;
 }
+
+.mainResultsSection {
+    flex: 1;
+}
+
+.mainResultsSection .resultsCount {
+    font-size: 13px;
+    color: #808080;
+    margin-left: 150px;
+}
