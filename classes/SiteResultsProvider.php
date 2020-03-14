@@ -39,6 +39,9 @@
                 $title = $row["title"];
                 $description = $row["description"];
 
+                $title = $this->trimField($title, 55);
+                $description = $this->trimField($description, 230);
+
                 $resultsHtml .= "<div class='resultContainer'>
 
                                     <h3 class='title'>
@@ -55,6 +58,12 @@
             $resultsHtml .= "</div>";
 
             return $resultsHtml;
+        }
+
+        // Trim the search result descriptions
+        private function trimField($string, $characterLimit) {
+            $dots = strlen($string) > $characterLimit ? "..." : "";
+            return substr($string, 0, $characterLimit) . $dots;
         }
     }
 ?>

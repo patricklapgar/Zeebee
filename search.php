@@ -9,7 +9,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Zeebie</title>
+        <title>Zeebee</title>
         <link rel="stylesheet" type="text/css" href="assets/css/style.css">
     </head>
     <body>
@@ -26,7 +26,7 @@
                     <div class="searchContainer">
                         <form action="search.php" method="GET">
                             <div class="searchBarContainer">
-                                <input type="text" class="searchBox" name="term">
+                                <input type="text" class="searchBox" name="term" value="<?php echo $term; ?>">
                                 <button class="searchButton">
                                     <img src="assets/images/icons/search.png" alt="">
                                 </button>

@@ -168,6 +168,6 @@
         }
     }
 
-    $startUrl = "https://github.com/";
+    $startUrl = "https://unsplash.com/s/photos/images";
     followLinks($startUrl);
 ?>
