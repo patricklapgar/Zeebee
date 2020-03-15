@@ -65,6 +65,18 @@
                     echo $resultsProvider->getResultsHtml($page, $pageLimit, $term);
                 ?>
             </div>
+
+            <div class="paginationContainer">
+                <div class="pageButtons">
+                    <div class="pageNumberContainer">
+                        <img src="assets/images/pageStart.png" alt="">
+                    </div>
+
+                    <div class="pageNumberContainer">
+                        <img src="assets/images/pageEnd.png" alt="">
+                    </div>
+                </div> 
+            </div>
             
         </div>
     </body>

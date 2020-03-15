@@ -204,3 +204,17 @@ html, body {
 .resultContainer .description {
     font-size: 12px;
 }
+
+.paginationContainer {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 25px;
+}
+
+.pageButtons {
+    display: flex;
+}
+
+.pageNumberContainer img{
+    height: 37px;
+}
