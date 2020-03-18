@@ -168,6 +168,6 @@
         }
     }
 
-    $startUrl = "https://unsplash.com/s/photos/images";
+    $startUrl = "https://www.chegg.com/";
     followLinks($startUrl);
 ?>
