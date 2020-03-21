@@ -168,6 +168,6 @@
         }
     }
 
-    $startUrl = "https://www.chegg.com/";
+    $startUrl = "https://www.oracle.com/index.html";
     followLinks($startUrl);
 ?>
