@@ -1,6 +1,8 @@
 <?php 
     include("config.php");
     include("classes/SiteResultsProvider.php");
+    include("classes/ImageResultsProvider.php");
+
 
     $term = isset($_GET["term"]) ? $_GET["term"] : exit("You must enter a search term");
     $type = isset($_GET["type"]) ? $_GET["type"] : "sites";   
@@ -59,9 +61,15 @@
 
             <div class="mainResultsSection">
                 <?php
-                    $resultsProvider = new SiteResultsProvider($con);
 
-                    $pageSize = 20;
+                    if($type == "sites"){
+                        $resultsProvider = new SiteResultsProvider($con);
+                        $pageSize = 20;
+                    } else {
+                        $resultsProvider = new ImageResultsProvider($con);
+                        $pageSize = 30;
+                    }
+                    
                     $numResults = $resultsProvider->getNumResults($term);
                     
                     echo "<p class='resultsCount'>$numResults results found</p>";
