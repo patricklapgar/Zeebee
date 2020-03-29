@@ -114,7 +114,7 @@
 
         $imageArray = $parser->getImages();
         foreach($imageArray as $image) {
-            $src = $image->getAttribute("srs");
+            $src = $image->getAttribute("src");
             $alt = $image->getAttribute("alt");
             $title = $image->getAttribute("title");
 
@@ -168,6 +168,6 @@
         }
     }
 
-    $startUrl = "https://www.oracle.com/index.html";
+    $startUrl = "";
     followLinks($startUrl);
 ?>

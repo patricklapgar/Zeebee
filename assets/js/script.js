@@ -12,7 +12,21 @@ $(document).ready(function() {
         
     });
 
+    var grid = $(".imageResults");
+    grid.masonry({
+        itemSelector: ".gridItem",
+        columnWidth: 200,
+        gutter: 5,
+        transitionDuration: 0,
+        isInitLayout: false
+    });
+
 });
+
+function loadImage(src) {
+    var image = $("<img>");
+    image.on("")
+}
 
 function increaseLinksClicked(linkId, url) {
     // AJAX call to increase the clicks value for a specific link
