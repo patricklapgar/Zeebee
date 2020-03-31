@@ -1,3 +1,5 @@
+var timer;
+
 $(document).ready(function() {
 
 	$(".result").on("click", function() {
@@ -9,25 +11,45 @@ $(document).ready(function() {
         }
 
         increaseLinksClicked(id, url);
-        
+        return false;
     });
 
     var grid = $(".imageResults");
+    grid.on("layoutComplete", function() {
+        $(".gridItem img").css("visibility", "visible");
+    });
+
     grid.masonry({
         itemSelector: ".gridItem",
         columnWidth: 200,
         gutter: 5,
-        transitionDuration: 0,
         isInitLayout: false
     });
 
 });
-
-function loadImage(src) {
+// This function loads all the search result images to be displayed
+function loadImage(src, className) {
     var image = $("<img>");
-    image.on("")
+    image.on("load", function() {
+        $("." + className + " a").append(image);
+
+        clearTimeout(timer);
+        
+        timer = setTimeout(function() {
+            $(".imageResults").masonry();
+        }, 500);
+    });
+
+    // Flags broken images
+    image.on("error", function() {
+        $("." + className).remove();
+        $.post("ajax/setBroken.php", {src, src});
+    });
+
+    image.attr("src", src);
 }
 
+// Increase the number of clicks a user makes on a search result
 function increaseLinksClicked(linkId, url) {
     // AJAX call to increase the clicks value for a specific link
     $.post("ajax/updateLinkCount.php", {linkId: linkId})

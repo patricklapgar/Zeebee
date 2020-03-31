@@ -168,6 +168,6 @@
         }
     }
 
-    $startUrl = "";
+    $startUrl = "#";
     followLinks($startUrl);
 ?>
