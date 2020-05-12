@@ -24,6 +24,31 @@
                         <input class="searchButton" type="submit" value="Search">
                     </form>
                 </div>
+
+                <!-- <div id="mostVisited" class="newtab-visited">
+                    <ul>
+                        <li class="newtab-item">
+                            <a href="https://www.google.com">
+                                <span class="newtab-link">
+                                    <span class="newtab-letter">G</span>
+                                </span>
+                                <div class="newtab-header">Google Website</div>
+                            </a>
+                        </li>
+                    </ul>
+                </div> -->
+                <div id="mostVisited" class="newtab-visited">
+                    <ul>
+                        <li class="newtab-item">
+                            <a href="https://www.google.com">
+                                <span class="newtab-link">
+                                    <span class="newtab-letter">G</span>
+                                </span>
+                                <div class="newtab-header">Google Website</div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </body>
