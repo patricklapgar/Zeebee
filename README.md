@@ -1,6 +1,6 @@
 # Zeebee
 
-My Google Clone (aka Zeebee is what I call it, because Google was already taken) is a full-stack search engine that's built from:
+My Google Clone (aka Zeebee is what I call it, because Google was already taken lolol) is a full-stack search engine that's built from:
 
 - JavaScript as the client-side language
 - jQuery as a JavaScript framework
